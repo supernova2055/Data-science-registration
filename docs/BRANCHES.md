@@ -28,3 +28,11 @@ Python source and requirements are on `main` in the `python/` directory. Bring t
 - Branch 09: Analyst authorization and privacy checks
 - Branch 10: Python setup, methods, and final report instructions
 Read `python/README.md` for instructions and scientific limitations.
+
+## Random Forest work allocation
+
+- Branch 07: design reviewed feature-importance graphics and visualization documentation.
+- Branch 08: add synthetic ML tests, baseline metrics and leakage checks.
+- Branch 09: privacy, access control, fairness and responsible-use review before any real student prediction.
+- Branch 10: document Python ML setup and interpretation in the final report.
+See `docs/RANDOM-FOREST.md` and `python/random_forest_demo.py` on main.
