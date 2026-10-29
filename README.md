@@ -327,3 +327,11 @@ Python uses `pandas`, `numpy`, `matplotlib`, `scipy`, `scikit-learn`, `mysql-con
 - `feature/10-documentation-deployment`: Document Python installation, reproducibility, methods and report results.
 
 The Python files have been added to `main`. Existing feature branches must sync with `main` to receive them.
+
+## Live analytics dashboard (new)
+
+After **11** registrations, open `http://localhost:3000` and click **View Analysis & Graphs**. The website now renders SVG graphs directly in the browser without extra chart packages: age histogram (10-year bands), fitted normal reference, educational linear regression, and demographic bar charts for gender, education and country. The API `/api/analytics` also returns `age_bands`, `overview.standard_deviation` and `regression` fields.
+
+**Local update commands:** `git pull origin main`, then stop the existing Node process with Ctrl+C and run `npm test && npm start`. Refresh the website. The existing 11 registrations in your local MySQL database remain in place; Git pulls do not overwrite local databases.
+
+**Interpretation:** the regression models *age by registration order* solely to demonstrate linear regression. Registration order does not scientifically predict age. The normal curve is a reference, not proof of normality. Groups of fewer than five observations are suppressed in bar charts, but aggregate statistics can still disclose sensitive information; this starter requires additional access controls and privacy review before collecting actual students' details.
