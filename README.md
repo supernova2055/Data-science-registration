@@ -335,3 +335,9 @@ After **11** registrations, open `http://localhost:3000` and click **View Analys
 **Local update commands:** `git pull origin main`, then stop the existing Node process with Ctrl+C and run `npm test && npm start`. Refresh the website. The existing 11 registrations in your local MySQL database remain in place; Git pulls do not overwrite local databases.
 
 **Interpretation:** the regression models *age by registration order* solely to demonstrate linear regression. Registration order does not scientifically predict age. The normal curve is a reference, not proof of normality. Groups of fewer than five observations are suppressed in bar charts, but aggregate statistics can still disclose sensitive information; this starter requires additional access controls and privacy review before collecting actual students' details.
+
+## Box plot and histogram update
+
+The live dashboard now includes **an age histogram** (10-year grouped counts) and **an age box plot** showing minimum, Q1, median, Q3 and maximum, calculated from the same saved MySQL registrations. No re-registration is necessary. With small cohorts, the five-number summary could reveal student ages, so use this dashboard only for local synthetic-data demos until privacy controls are implemented.
+
+Update your Mac checkout with `git pull origin main`. Stop the running server with Ctrl+C, then execute `npm test` and `npm start`; refresh `http://localhost:3000` and click **View Analysis & Graphs**. A GitHub commit cannot directly restart the Node.js process on your computer.
