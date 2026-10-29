@@ -64,6 +64,12 @@ The script also saves gender and education counts when enough records exist. Its
 
 **Why the README uses demonstration charts:** GitHub cannot connect to your running local MySQL service. Publishing real student-derived PNGs straight to a repository could reveal information; replace examples only with ethically approved, privacy-reviewed aggregate visuals.
 
+## Final local setup and test checklist
+
+See [**Final setup instructions**](docs/FINAL-SETUP.md) for Apple Silicon, MySQL user configuration, Node.js tests, local registration, 11-student analytics and Python graphs.
+
+Run `npm test` to execute automated input-validation and analytics-threshold tests. **These are unit tests, not a full MySQL integration test.**
+
 ## Project goals
 
 1. Collect a voluntary student demographic registration using a browser form.
