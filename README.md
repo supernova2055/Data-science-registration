@@ -341,3 +341,14 @@ After **11** registrations, open `http://localhost:3000` and click **View Analys
 The live dashboard now includes **an age histogram** (10-year grouped counts) and **an age box plot** showing minimum, Q1, median, Q3 and maximum, calculated from the same saved MySQL registrations. No re-registration is necessary. With small cohorts, the five-number summary could reveal student ages, so use this dashboard only for local synthetic-data demos until privacy controls are implemented.
 
 Update your Mac checkout with `git pull origin main`. Stop the running server with Ctrl+C, then execute `npm test` and `npm start`; refresh `http://localhost:3000` and click **View Analysis & Graphs**. A GitHub commit cannot directly restart the Node.js process on your computer.
+
+## Random Forest machine learning (Python)
+
+A new educational [Random Forest module](docs/RANDOM-FOREST.md) is available at [`python/random_forest_demo.py`](python/random_forest_demo.py). It uses the same MySQL connection and checks the existing registration count; **you do not need to register another 11 students**. At 11–19 registrations it demonstrates Random Forest on clearly labeled synthetic examples, because such a small dataset is unsuitable for meaningful prediction. It generates a feature-importance chart locally.
+
+```bash
+python -m pip install -r python/requirements.txt
+python python/random_forest_demo.py
+```
+
+Random Forest is not added to the public student dashboard: the output is local-only until adequate data, research design, authentication and privacy review exist.
