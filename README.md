@@ -4,6 +4,66 @@ A small **Node.js 20+ / Express / MySQL 8+** learning project for registering st
 
 > **Status:** Starter implementation is committed to `main`; 10 feature branches exist for organized development. This does **not** mean a live MySQL server, hosted website, production security, or end-to-end testing has been completed. The GitHub repository was public when last checked; **do not commit real student records or passwords**.
 
+## Project workflow and example graphs
+
+The diagrams below render directly inside GitHub README. **All four graphs show made-up demonstration values, not actual registered students.** Real charts must be generated locally from authorized data after 11 registrations and privacy review.
+
+```mermaid
+flowchart TD
+    A["Student enters registration"] --> B["Node.js + Express validates"]
+    B --> C[("MySQL students table")]
+    C --> D{"Total students > 10?"}
+    D -->|No| E["Continue registration"]
+    D -->|Yes| F["Python analysis"]
+    F --> G["Linear regression"]
+    F --> H["Distribution checks"]
+    F --> I["Demographic charts"]
+    G --> J["Reviewed final report"]
+    H --> J
+    I --> J
+```
+
+### 1. Age distribution (illustration)
+
+![Synthetic age distribution bar chart](docs/graphs/age-distribution.svg)
+
+Use `python/analyze.py` to generate the real local histogram at `python/output/age_histogram.png`. The demo bar chart above is synthetic; it is not a statistical result from MySQL.
+
+### 2. Normal distribution (illustration)
+
+![Synthetic normal distribution bell curve](docs/graphs/normal-distribution.svg)
+
+A normal reference curve can be compared to the real age histogram; the Python script also reports a normality test. A bell-shaped curve or large p-value alone does **not** establish that ages are normally distributed.
+
+### 3. Linear regression (illustration)
+
+![Synthetic regression scatterplot with trend line](docs/graphs/linear-regression.svg)
+
+The Python script generates `python/output/linear_regression.png`, and reports the slope and R². Its current predictor—registration order—is **educational only** and cannot support a useful substantive conclusion. Select a meaningful numeric predictor and outcome, with proper consent, before making scientific claims.
+
+### 4. Student demographics (illustration)
+
+![Synthetic education demographics counts](docs/graphs/demographics.svg)
+
+The script also saves gender and education counts when enough records exist. Its local plots suppress categories under five; any externally shared graphs need a separate privacy review.
+
+### Full step-by-step: getting your real graphs
+
+1. **Clone** the repo: `git clone https://github.com/sureshkhaniya/Data-science-registration.git`, then `cd Data-science-registration`.
+2. **Install** Node.js 20+, MySQL 8+ and Python 3.10+ (3.11+ recommended).
+3. **Create database** by executing `sql/schema.sql` in MySQL Workbench or using `mysql -u root -p < sql/schema.sql`.
+4. **Create least-privilege MySQL user** using `sql/admin-setup.example.sql` with a strong local password.
+5. **Configure MySQL** by copying `.env.example` to `.env`; set the database host, user, password, port and database name. Never commit `.env`.
+6. **Install and run registration server:** `npm install` and `npm start`. Visit `http://localhost:3000`.
+7. **Register at least 11 synthetic sample students** for testing with distinct project codes, or use a separate authorized dataset after consent and security review. Verify `GET /api/stats` shows `analytics_ready: true`.
+8. **Create Python virtual environment:** `python -m venv .venv`. Activate using `source .venv/bin/activate` on macOS/Linux or `.venv\\Scripts\\Activate.ps1` in PowerShell.
+9. **Install Python packages:** `python -m pip install -r python/requirements.txt`.
+10. **Generate graphs:** `python python/analyze.py`.
+11. **Find locally generated charts** in `python/output/`, including age histogram, normal reference and regression plots. The folder is gitignored to prevent accidental uploads.
+12. **Prepare the final report** with the research question, methods, sample size, charts, descriptive results, model limitations and consent/privacy considerations. Use only synthetic or explicitly cleared aggregated charts for GitHub/other public sharing.
+
+**Why the README uses demonstration charts:** GitHub cannot connect to your running local MySQL service. Publishing real student-derived PNGs straight to a repository could reveal information; replace examples only with ethically approved, privacy-reviewed aggregate visuals.
+
 ## Project goals
 
 1. Collect a voluntary student demographic registration using a browser form.
