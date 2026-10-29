@@ -4,6 +4,9 @@ app.get('/api/analytics',async(_req,res)=>{let c;try{c=await pool.getConnection(
 const age_bands=bandRows.filter(r=>Number(r.count)>=5).map(r=>({band:String(r.lower_age)+'–'+String(Number(r.lower_age)+9),count:Number(r.count)}));
 // Educational line only: registration order is not a scientifically meaningful predictor.
 const [ages]=await c.query("SELECT age FROM students ORDER BY registered_at, id");
+const sortedAges=ages.map(r=>Number(r.age)).sort((a,b)=>a-b);
+const quantile=p=>{const pos=(sortedAges.length-1)*p,lo=Math.floor(pos),hi=Math.ceil(pos);return sortedAges[lo]+(sortedAges[hi]-sortedAges[lo])*(pos-lo)};
+const quartiles={minimum:sortedAges[0],q1:quantile(.25),median:quantile(.5),q3:quantile(.75),maximum:sortedAges[sortedAges.length-1]};
 const n=ages.length;let sx=0,sy=0,sxx=0,syy=0,sxy=0;
 ages.forEach((r,i)=>{const x=i+1,y=Number(r.age);sx+=x;sy+=y;sxx+=x*x;syy+=y*y;sxy+=x*y});
 const den=n*sxx-sx*sx,denY=n*syy-sy*sy;
@@ -11,5 +14,5 @@ const slope=den?(n*sxy-sx*sy)/den:0;
 const intercept=(sy-slope*sx)/n;
 const r_squared=den&&denY?Math.pow(n*sxy-sx*sy,2)/(den*denY):null;
 const regression={available:r_squared!==null,slope,intercept,r_squared};
-await c.commit();res.json({total,overview,groups,age_bands,regression,privacy_note:'Groups with fewer than five students are hidden.'})}catch(e){if(c)try{await c.rollback()}catch{}console.error(e.code||e.message);res.status(500).json({error:'Analysis unavailable'})}finally{if(c)c.release()}});
+await c.commit();res.json({total,overview,groups,age_bands,quartiles,regression,privacy_note:'Groups with fewer than five students are hidden.'})}catch(e){if(c)try{await c.rollback()}catch{}console.error(e.code||e.message);res.status(500).json({error:'Analysis unavailable'})}finally{if(c)c.release()}});
 app.listen(Number(process.env.PORT||3000),()=>console.log('Open http://localhost:'+(process.env.PORT||3000)));
