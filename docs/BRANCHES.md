@@ -18,3 +18,13 @@ All 10 branches are based on main and can be developed independently. Open a pul
 - Register 11 synthetic test students locally.
 - Test that analytics is locked for the first 10 and unlocked at 11.
 - Review data protection and secure the analytics endpoint before production.
+
+## Python extension tasks
+Python source and requirements are on `main` in the `python/` directory. Bring these commits into your branch before starting:
+- Branch 02: Python MySQL connector and configuration
+- Branch 06: Consistent registration threshold and aggregate policy
+- Branch 07: Normal distribution, regression and final graphics
+- Branch 08: Statistical/script tests with synthetic rows
+- Branch 09: Analyst authorization and privacy checks
+- Branch 10: Python setup, methods, and final report instructions
+Read `python/README.md` for instructions and scientific limitations.
