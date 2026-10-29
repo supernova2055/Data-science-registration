@@ -32,3 +32,7 @@ The script uses the same local `.env` MySQL credentials as Node.js; it does not 
 2. Add train/test evaluation, residual diagnostics and confidence intervals as appropriate.
 3. Build a published dashboard from reviewed, access-controlled aggregate outputs only.
 4. Create tests with **synthetic** fixtures for the 10-vs-11 boundary and chart generation.
+
+## Random Forest learning extension
+
+Run `python python/random_forest_demo.py` after installing `python/requirements.txt`. Read [Random Forest guide](../docs/RANDOM-FOREST.md). The script uses the existing MySQL registrations to check eligibility. With just 11 students it uses synthetic data for teaching rather than reporting misleading student predictions. Graph: `python/output/random_forest_importance.png`.
