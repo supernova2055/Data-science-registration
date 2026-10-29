@@ -220,3 +220,44 @@ Then open a pull request **from that feature branch to `main`** on GitHub. Revie
 - [Branch task plan](docs/BRANCHES.md)
 
 **License:** No license file has been added; do not assume reuse permissions.
+
+## Python data science and final visualization
+
+The application now includes a companion **Python analytics script** that connects to the same MySQL database as Node.js. **Node.js** collects student registrations; **MySQL** stores them; **Python** performs offline exploratory analysis and saves graph images. See [Python instructions](python/README.md) and [Python code](python/analyze.py).
+
+### Set up Python
+
+From your cloned repository root after MySQL has been configured and your local `.env` exists:
+
+```bash
+python -m venv .venv
+# Windows PowerShell: .venv\\Scripts\\Activate.ps1
+# macOS / Linux: source .venv/bin/activate
+python -m pip install -r python/requirements.txt
+python python/analyze.py
+```
+
+Python uses `pandas`, `numpy`, `matplotlib`, `scipy`, `scikit-learn`, `mysql-connector-python` and `python-dotenv`. It requires **at least 11 student records** and creates files locally in `python/output/` (ignored by Git): `age_histogram.png`, `normal_reference.png`, `linear_regression.png`, and demographic bar charts when enough observations are present.
+
+### Statistical analysis work to complete
+
+| Analysis | Python library | What to produce / explain |
+| --- | --- | --- |
+| Descriptive statistics | pandas, numpy | Count, mean, standard deviation, education/gender frequencies |
+| Normal distribution | scipy, matplotlib | Normal reference curve, age histogram and Shapiro–Wilk normality assessment; distinguish fit from proof |
+| Linear regression | scikit-learn | A fitted line, slope, R² and limitations; example uses age versus registration order **for demonstration only**, not as a useful predictor |
+| Demographic graphs | pandas, matplotlib | Aggregated bar charts; suppress groups with fewer than 5 students |
+| Final presentation | matplotlib plus written report | Explain the research question, collection method, sample size, plots, assumptions, limits and conclusions |
+
+**Scientific caution:** registration order is an arbitrary example feature, not a legitimate causal explanation of student age. A meaningful regression needs an ethically collected numeric predictor and a clearly stated research question. A sample of 11 is not inherently statistically sufficient. The current Python script reads individual ages locally, so restrict analyst access and never publish raw rows or private data.
+
+### Assign Python tasks to existing 10 branches
+
+- `feature/02-mysql-connection`: Verify Python can read the same MySQL database through its own connector.
+- `feature/06-analytics-api`: Align aggregate definitions and the >10 restriction between Node.js and Python.
+- `feature/07-dashboard`: Build reviewed regression, distribution and demographic visualizations for the final project.
+- `feature/08-testing`: Add synthetic-data regression/normality tests and verify graph creation.
+- `feature/09-privacy-security`: Review analyst access, small-cell suppression and graph disclosure risks.
+- `feature/10-documentation-deployment`: Document Python installation, reproducibility, methods and report results.
+
+The Python files have been added to `main`. Existing feature branches must sync with `main` to receive them.
