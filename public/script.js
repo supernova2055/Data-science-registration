@@ -21,6 +21,22 @@ function chart(host,title,points,{kind='bar',xLabel='',yLabel='Count',line=null}
  label(svg,xLabel,width/2,height-10,{'text-anchor':'middle'});
  label(svg,yLabel,14,height/2,{'text-anchor':'middle',transform:`rotate(-90 14 ${height/2})`});
 }
+function boxPlot(host,q){
+ host.replaceChildren();const svg=node('svg',{viewBox:'0 0 640 270',role:'img','aria-label':'Age box plot',class:'chart'},host);
+ label(svg,'Age box plot (five-number summary)',20,25,{'font-size':17,'font-weight':700});
+ if(!q){label(svg,'No box plot data available',50,135);return}
+ const vals=[q.minimum,q.q1,q.median,q.q3,q.maximum].map(Number);
+ if(vals.some(v=>!Number.isFinite(v))){label(svg,'Insufficient data',50,135);return}
+ const low=Math.floor(vals[0]-2),high=Math.ceil(vals[4]+2),span=Math.max(1,high-low);
+ const x=v=>65+(v-low)/span*530,y=128;
+ node('line',{x1:x(vals[0]),x2:x(vals[4]),y1:y,y2:y,stroke:'#2563a0','stroke-width':3},svg);
+ node('rect',{x:x(vals[1]),y:y-35,width:Math.max(1,x(vals[3])-x(vals[1])),height:70,fill:'#bfdbfe',stroke:'#2563a0','stroke-width':2},svg);
+ for(const [i,color] of [[0,'#2563a0'],[2,'#d97706'],[4,'#2563a0']]) node('line',{x1:x(vals[i]),x2:x(vals[i]),y1:y-35,y2:y+35,stroke:color,'stroke-width':3},svg);
+ for(const [v,name] of [[vals[0],'Min'],[vals[1],'Q1'],[vals[2],'Median'],[vals[3],'Q3'],[vals[4],'Max']]){
+ const ix=x(v);label(svg,name,ix,205,{'text-anchor':'middle','font-size':11});label(svg,String(Math.round(v*10)/10),ix,223,{'text-anchor':'middle','font-size':11});
+ }
+ label(svg,'Age in years',320,253,{'text-anchor':'middle'});
+}
 function gaussian(x,mean,std){return Math.exp(-.5*Math.pow((x-mean)/std,2))/(std*Math.sqrt(2*Math.PI))}
 function displayAnalytics(data){
  const panel=document.querySelector('#dashboard'),summary=document.querySelector('#summary');
@@ -28,6 +44,7 @@ function displayAnalytics(data){
  for(const [name,value] of [['Students',data.total],['Average age',data.overview.average_age],['Std. deviation',data.overview.standard_deviation??'N/A']]){const e=document.createElement('div');e.className='stat';const t=document.createElement('strong');t.textContent=value;const s=document.createElement('span');s.textContent=name;e.append(t,s);summary.append(e)}
  for(const name of ['gender','education','country']){const rows=data.groups[name]||[];chart(document.querySelector('#chart-'+name),name==='education'?'Education level':name[0].toUpperCase()+name.slice(1),rows.map(r=>({label:r.category,value:Number(r.count)})),{xLabel:'Categories with at least 5 students'})}
  const ages=data.age_bands||[];chart(document.querySelector('#chart-ages'),'Age distribution',ages.map(r=>({label:r.band,value:Number(r.count)})),{xLabel:'10-year age bands (small groups suppressed)'});
+ boxPlot(document.querySelector('#chart-boxplot'),data.quartiles);
  const mu=Number(data.overview.average_age),sd=Number(data.overview.standard_deviation);
  if(sd>0){const norm=Array.from({length:49},(_,i)=>{const x=mu-3*sd+6*sd*i/48;return {label:i%8===0?String(Math.round(x)):'',value:gaussian(x,mu,sd)}});chart(document.querySelector('#chart-normal'),'Normal distribution reference',norm,{kind:'line',xLabel:'Age (fitted normal reference)',yLabel:'Density'})}
  else chart(document.querySelector('#chart-normal'),'Normal distribution reference',[],{kind:'line'});
